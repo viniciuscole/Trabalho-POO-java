@@ -1,0 +1,6 @@
+*.jar
+*.class
+bin/
+.vscode/
+build.xml
+src/data/
