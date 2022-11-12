@@ -1,4 +1,4 @@
-import deputado.Deputado;
+import candidato.Candidato;
 
 public class App {
     public static void main(String[] args){
@@ -12,14 +12,14 @@ public class App {
         String voters_archive = args[2];
         String date = args[3];
 
-        Deputado deputado = new Deputado("João");
+        Candidato candidato = new Candidato("João");
 
         switch(option){
             case "--federal":
-                System.out.println(deputado);
+                System.out.println(candidato);
                 break;
             case "--estadual":
-                System.out.println(deputado);
+                System.out.println(candidato);
                 break;
             default:
                 System.out.println("Invalid option");

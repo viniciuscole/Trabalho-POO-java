@@ -1,9 +1,9 @@
-package deputado;
+package candidato;
 
-public class Deputado {
+public class Candidato {
     private String nome;
     
-    public Deputado(String nome) {
+    public Candidato(String nome) {
         this.nome = nome;
     }
 
