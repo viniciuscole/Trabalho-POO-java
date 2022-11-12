@@ -2,8 +2,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.LinkedList;
 
-import candidato.Candidato;
+import data.Candidato;
 import leitor.Leitor;
+import relatorio.Relatorio;
 
 public class App {
     public static void main(String[] args) throws IOException, ParseException{
@@ -17,9 +18,10 @@ public class App {
         String voters_archive = args[2];
         String date = args[3];
 
+        
         Leitor leitor = new Leitor(candidates_archive);
         LinkedList <Candidato> candidatos = new LinkedList <Candidato>();
-
+        
         switch(option){
             case "--federal":
                 candidatos = leitor.setCandidates(candidatos, 0);
@@ -28,13 +30,16 @@ public class App {
                 candidatos = leitor.setCandidates(candidatos, 1);
                 break;
             default:
-                System.out.println("Invalid option");
-                return;
+            System.out.println("Invalid option");
+            return;
         }
             
-        for (Candidato candidato : candidatos) {
-            System.out.println(candidato);
-        }
+        System.out.println(candidatos.size());
+        
+        Relatorio relatorio = new Relatorio(candidatos);
+        
+        relatorio.rel1();
+        
            
     }
 }

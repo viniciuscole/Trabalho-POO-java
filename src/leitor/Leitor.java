@@ -51,14 +51,14 @@ public class Leitor {
         br = new BufferedReader(isr);
         
         
-        br.readLine(); // Pula a primeira linha
-        
-        String line;
+        String line=br.readLine();
         String[] data;
 
-        while(br.readLine() != null){
+        while(line != null){
             line = br.readLine();
+            if(line==null) break;
             data = line.split(";");
+                
 
             int tipoCandidato = Integer.parseInt(data[tipoCandidatoIndex].replaceAll("\"", ""));
             int situacao = Integer.parseInt(data[situacaoIndex].replaceAll("\"", ""));
@@ -72,21 +72,22 @@ public class Leitor {
             int genero = Integer.parseInt(data[generoIndex].replaceAll("\"", ""));
 
 
-
-            switch(tipo){
-                case 0:
-                    if(tipoCandidato==6){
-                        candidatos.add(new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero));
-                    }
-                    break;
-                case 1:
-                    if(tipoCandidato==7){
-                        candidatos.add(new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero));
-                    }
-                    break;
-                default:
-                    System.out.println("Invalid option");
-                    return null;
+            if(situacao == 2 || situacao == 16){
+                switch(tipo){
+                    case 0:
+                        if(tipoCandidato==6){
+                            candidatos.add(new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero));
+                        }
+                        break;
+                    case 1:
+                        if(tipoCandidato==7){
+                            candidatos.add(new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero));
+                        }
+                        break;
+                    default:
+                        System.out.println("Invalid option");
+                        return null;
+                }
             }
         }
         br.close();

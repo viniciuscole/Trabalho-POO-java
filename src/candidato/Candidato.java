@@ -27,6 +27,67 @@ public class Candidato {
         this.genero = genero;
     }
 
+    
+    
+
+    public int getTipoCandidato() {
+        return tipoCandidato;
+    }
+
+
+
+    public int getSituacao() {
+        return situacao;
+    }
+
+
+
+    public int getNumeroCandidato() {
+        return numeroCandidato;
+    }
+
+
+
+    public String getNome() {
+        return nome;
+    }
+
+    
+    
+    public int getNumeroPartido() {
+        return numeroPartido;
+    }
+    
+    
+    
+    public String getSiglaPartido() {
+        return siglaPartido;
+    }
+    
+    
+
+    public int getNumeroFederacao() {
+        return numeroFederacao;
+    }
+
+    
+
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    
+    
+    public int getSituacaoEleito() {
+        return situacaoEleito;
+    }
+
+
+    
+    public int getGenero() {
+        return genero;
+    }
+    
     @Override
     public String toString() {
         return "Candidato [tipoCandidato=" + tipoCandidato + ", situacao=" + situacao + ", numeroCandidato=" + numeroCandidato + ", nome="
@@ -34,7 +95,6 @@ public class Candidato {
                 + numeroFederacao + ", dataNascimento=" + dataNascimento + ", situacaoEleito=" + situacaoEleito
                 + ", genero=" + genero + "]";
     }
-    
     
     
 }
