@@ -1,11 +1,12 @@
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.LinkedList;
 
 import candidato.Candidato;
 import leitor.Leitor;
 
 public class App {
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException, ParseException{
         if(args.length < 4){
             System.out.println("Not enough arguments");
             return;
@@ -30,6 +31,10 @@ public class App {
                 System.out.println("Invalid option");
                 return;
         }
-
+            
+        for (Candidato candidato : candidatos) {
+            System.out.println(candidato);
+        }
+           
     }
 }

@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 
 import candidato.Candidato;
@@ -30,7 +32,7 @@ public class Leitor {
         this.path = path;
     }
     
-    public LinkedList <Candidato> setCandidates(LinkedList <Candidato> candidatos, int tipo) throws IOException{   //0 para federal, 1 para estadual
+    public LinkedList <Candidato> setCandidates(LinkedList <Candidato> candidatos, int tipo) throws IOException, ParseException{   //0 para federal, 1 para estadual
 
         final int tipoCandidatoIndex= 13;
         final int situacaoIndex= 24;
@@ -57,17 +59,34 @@ public class Leitor {
         while(br.readLine() != null){
             line = br.readLine();
             data = line.split(";");
+
+            int tipoCandidato = Integer.parseInt(data[tipoCandidatoIndex].replaceAll("\"", ""));
+            int situacao = Integer.parseInt(data[situacaoIndex].replaceAll("\"", ""));
+            int numeroCandidato = Integer.parseInt(data[numeroCandidatoIndex].replaceAll("\"", ""));
+            String nome = data[nomeIndex].replaceAll("\"", "");
+            int numeroPartido = Integer.parseInt(data[numeroPartidoIndex].replaceAll("\"", ""));
+            String siglaPartido = data[siglaPartidoIndex].replaceAll("\"", "");
+            int numeroFederacao = Integer.parseInt(data[numeroFederacaoIndex].replaceAll("\"", ""));
+            Date dataNascimento = new SimpleDateFormat("dd/MM/yyyy").parse(data[dataNascimentoIndex].replaceAll("\"", ""));
+            int situacaoEleito = Integer.parseInt(data[situacaoEleitIndex].replaceAll("\"", ""));
+            int genero = Integer.parseInt(data[generoIndex].replaceAll("\"", ""));
+
+
+
             switch(tipo){
                 case 0:
-                    if(data[tipoCandidatoIndex].equals("6")){
-                        candidatos.add(new Candidato(Integer.parseInt(data[tipoCandidatoIndex]), Integer.parseInt(data[situacaoIndex]), Integer.parseInt(data[numeroCandidatoIndex]), data[nomeIndex], Integer.parseInt(data[numeroPartidoIndex]), data[siglaPartidoIndex], Integer.parseInt(data[numeroFederacaoIndex]), Date.valueOf(data[dataNascimentoIndex]), Integer.parseInt(data[situacaoEleitIndex]), Integer.parseInt(data[generoIndex])));
+                    if(tipoCandidato==6){
+                        candidatos.add(new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero));
                     }
                     break;
                 case 1:
-                    if(data[tipoCandidatoIndex].equals("7")){
-                        candidatos.add(new Candidato(Integer.parseInt(data[tipoCandidatoIndex]), Integer.parseInt(data[situacaoIndex]), Integer.parseInt(data[numeroCandidatoIndex]), data[nomeIndex], Integer.parseInt(data[numeroPartidoIndex]), data[siglaPartidoIndex], Integer.parseInt(data[numeroFederacaoIndex]), Date.valueOf(data[dataNascimentoIndex]), Integer.parseInt(data[situacaoEleitIndex]), Integer.parseInt(data[generoIndex])));
+                    if(tipoCandidato==7){
+                        candidatos.add(new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero));
                     }
                     break;
+                default:
+                    System.out.println("Invalid option");
+                    return null;
             }
         }
         br.close();
