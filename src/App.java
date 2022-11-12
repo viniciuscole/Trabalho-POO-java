@@ -1,7 +1,11 @@
+import java.io.IOException;
+import java.util.LinkedList;
+
 import candidato.Candidato;
+import leitor.Leitor;
 
 public class App {
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException{
         if(args.length < 4){
             System.out.println("Not enough arguments");
             return;
@@ -12,14 +16,15 @@ public class App {
         String voters_archive = args[2];
         String date = args[3];
 
-        Candidato candidato = new Candidato("João");
+        Leitor leitor = new Leitor(candidates_archive);
+        LinkedList <Candidato> candidatos = new LinkedList <Candidato>();
 
         switch(option){
             case "--federal":
-                System.out.println(candidato);
+                candidatos = leitor.setCandidates(candidatos, 0);
                 break;
             case "--estadual":
-                System.out.println(candidato);
+                candidatos = leitor.setCandidates(candidatos, 1);
                 break;
             default:
                 System.out.println("Invalid option");
