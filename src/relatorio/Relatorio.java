@@ -24,8 +24,8 @@ public class Relatorio {
         }
     }
 
-    public void ordenaCandidatosEleitos(){
-        Collections.sort(candidatosEleitos, new Comparator<Candidato>() {
+    public void ordenaCandidatos(){
+        Collections.sort(candidatos, new Comparator<Candidato>() {
             @Override
             public int compare(Candidato c1, Candidato c2) {
                 return c2.getVotos() - c1.getVotos();
@@ -44,10 +44,42 @@ public class Relatorio {
         for(Candidato candidatoEleito : candidatosEleitos){
 
             if(candidatoEleito.getNumeroFederacao()==-1)
-                System.out.println(i+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getSiglaPartido()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", ".")+" votos)");
+                System.out.print(i+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getSiglaPartido()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
             
-            else System.out.println(i+" - *"+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getSiglaPartido()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", ".")+" votos)");
+            else 
+                System.out.print(i+" - *"+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getSiglaPartido()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
+            
+            if(candidatoEleito.getVotos()>1){
+                System.out.println(" votos)");
+            }
+            else{
+                System.out.println(" voto)");
+            }
+
             i++;
+        }
+    }
+
+    public void rel3(){
+        int i=1;
+        DecimalFormat df = new DecimalFormat("#,###");
+        System.out.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
+        for(Candidato candidato : candidatos){
+
+            if(candidato.getNumeroFederacao()==-1)
+                System.out.print(i+" - "+candidato.getNome().toUpperCase()+" ("+candidato.getSiglaPartido()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
+            
+            else System.out.print(i+" - *"+candidato.getNome().toUpperCase()+" ("+candidato.getSiglaPartido()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
+            
+            if(candidato.getVotos()>1){
+                System.out.println(" votos)");
+            }
+            else{
+                System.out.println(" voto)");
+            }
+
+            i++;
+            if(i==candidatosEleitos.size()+1) break;
         }
     }
     

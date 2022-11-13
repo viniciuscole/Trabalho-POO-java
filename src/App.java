@@ -40,15 +40,16 @@ public class App {
         
         Relatorio relatorio = new Relatorio(candidatos);
 
+        relatorio.ordenaCandidatos();
         relatorio.setCandidatosEleitos();
-        relatorio.ordenaCandidatosEleitos();
-
         
 
         
         relatorio.rel1();
         System.out.println();
         relatorio.rel2();
+        System.out.println();
+        relatorio.rel3();
         
            
     }
