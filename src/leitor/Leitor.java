@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import candidato.Candidato;
+import partido.Partido;
 
 public class Leitor {
     private String path;
@@ -18,6 +19,7 @@ public class Leitor {
     private InputStreamReader isr;
     private BufferedReader br;
 
+    private LinkedList <Partido> partidos = new LinkedList <Partido>();
 
 
     public Leitor(String path){
@@ -30,6 +32,10 @@ public class Leitor {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public LinkedList <Partido> getPartidos() {
+        return partidos;
     }
     
     public LinkedList <Candidato> setCandidates(LinkedList <Candidato> candidatos, int tipo) throws IOException, ParseException{   //0 para federal, 1 para estadual
@@ -71,17 +77,44 @@ public class Leitor {
             int situacaoEleito = Integer.parseInt(data[situacaoEleitIndex].replaceAll("\"", ""));
             int genero = Integer.parseInt(data[generoIndex].replaceAll("\"", ""));
 
-
+            
+            int flag=0;
             if(situacao == 2 || situacao == 16){
                 switch(tipo){
                     case 0:
                         if(tipoCandidato==6){
-                            candidatos.add(new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero));
+                            Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero);
+                            candidatos.add(candidato);
+                            flag=0;
+                            for(Partido partido: partidos){
+                                if(partido.getNumero()==numeroPartido){
+                                    partido.addCandidato(candidato);
+                                    flag=1;
+                                }
+                            }
+                            if(flag==0){
+                                Partido partido = new Partido(siglaPartido, numeroPartido);
+                                partido.addCandidato(candidato);
+                                partidos.add(partido);
+                            }
                         }
                         break;
                     case 1:
                         if(tipoCandidato==7){
-                            candidatos.add(new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero));
+                            Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero);
+                            candidatos.add(candidato);
+                            flag=0;
+                            for(Partido partido: partidos){
+                                if(partido.getNumero()==numeroPartido){
+                                    partido.addCandidato(candidato);
+                                    flag=1;
+                                }
+                            }
+                            if(flag==0){
+                                Partido partido = new Partido(siglaPartido, numeroPartido);
+                                partido.addCandidato(candidato);
+                                partidos.add(partido);
+                            }
                         }
                         break;
                     default:
@@ -91,6 +124,76 @@ public class Leitor {
             }
         }
         br.close();
+        return candidatos;
+    }
+
+    public LinkedList<Candidato> setVotes(LinkedList<Candidato> candidatos, int tipo) throws IOException{
+
+        final int cargoIndex= 17;
+        final int numeroCandidatoIndex= 19;
+        final int qtdeVotosIndex= 21;
+
+        is = new FileInputStream(path);
+        isr = new InputStreamReader(is, "Latin1");
+        br = new BufferedReader(isr);
+        
+        
+        String line=br.readLine();  //pula a primeira linha
+        String[] data;
+
+        while(line != null){
+            line = br.readLine();
+
+            if(line==null) break;
+            data = line.split(";");
+
+            int cargo = Integer.parseInt(data[cargoIndex].replaceAll("\"", ""));
+            int numeroVoto = Integer.parseInt(data[numeroCandidatoIndex].replaceAll("\"", ""));
+            int qtdVotos = Integer.parseInt(data[qtdeVotosIndex].replaceAll("\"", ""));
+
+            if(numeroVoto != 95 || numeroVoto != 96 || numeroVoto != 97 || numeroVoto != 98){
+                switch(tipo){
+                    case 0:
+                        if(cargo==6){
+                            for(Candidato candidato: candidatos){
+                                if(candidato.getNumeroCandidato()==numeroVoto){
+                                    candidato.addVotos(qtdVotos);
+                                    break;
+                                }
+                            }
+                            for(Partido partido: partidos){
+                                if(partido.getNumero()==numeroVoto){
+                                    partido.addVotosLegenda(qtdVotos);
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    case 1:
+                        if(cargo==7){
+                            for(Candidato candidato: candidatos){
+                                if(candidato.getNumeroCandidato()==numeroVoto){
+                                    candidato.addVotos(qtdVotos);
+                                    break;
+                                }
+                            }
+                            for(Partido partido: partidos){
+                                if(partido.getNumero()==numeroVoto){
+                                    partido.addVotosLegenda(qtdVotos);
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        System.out.println("Invalid option");
+                        return null;
+                }
+            }
+
+        }
+
+
         return candidatos;
     }
 }

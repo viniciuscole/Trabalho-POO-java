@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.LinkedList;
 
-import data.Candidato;
+import candidato.Candidato;
 import leitor.Leitor;
 import relatorio.Relatorio;
 
@@ -25,20 +25,30 @@ public class App {
         switch(option){
             case "--federal":
                 candidatos = leitor.setCandidates(candidatos, 0);
+                leitor.setPath(voters_archive);
+                candidatos = leitor.setVotes(candidatos, 0);
                 break;
             case "--estadual":
                 candidatos = leitor.setCandidates(candidatos, 1);
+                leitor.setPath(voters_archive);
+                candidatos = leitor.setVotes(candidatos, 1);
                 break;
             default:
             System.out.println("Invalid option");
             return;
-        }
-            
-        System.out.println(candidatos.size());
+        }        
         
         Relatorio relatorio = new Relatorio(candidatos);
+
+        relatorio.setCandidatosEleitos();
+        relatorio.ordenaCandidatosEleitos();
+
+        
+
         
         relatorio.rel1();
+        System.out.println();
+        relatorio.rel2();
         
            
     }

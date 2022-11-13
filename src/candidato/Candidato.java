@@ -14,6 +14,8 @@ public class Candidato {
     private int situacaoEleito;
     private int genero;
 
+    private int votos = 0;
+
     public Candidato(int tipoCandidato, int situacao, int numeroCandidato, String nome, int numeroPartido, String siglaPartido, int numeroFederacao, Date dataNascimento, int situacaoEleito, int genero) {
         this.tipoCandidato = tipoCandidato;
         this.situacao = situacao;
@@ -87,13 +89,23 @@ public class Candidato {
     public int getGenero() {
         return genero;
     }
+
+
+    public int getVotos() {
+        return votos;
+    }
+
+    public void addVotos(int votos) {
+        this.votos += votos;
+    }
+
     
     @Override
     public String toString() {
         return "Candidato [tipoCandidato=" + tipoCandidato + ", situacao=" + situacao + ", numeroCandidato=" + numeroCandidato + ", nome="
                 + nome + ", numeroPartido=" + numeroPartido + ", siglaPartido=" + siglaPartido + ", numeroFederacao="
                 + numeroFederacao + ", dataNascimento=" + dataNascimento + ", situacaoEleito=" + situacaoEleito
-                + ", genero=" + genero + "]";
+                + ", genero=" + genero + ", votos=" + votos + "]";
     }
     
     
