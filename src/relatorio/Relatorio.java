@@ -31,7 +31,9 @@ public class Relatorio {
         Collections.sort(candidatos, new Comparator<Candidato>() {
             @Override
             public int compare(Candidato c1, Candidato c2) {
+                if(c2.getVotos()!=c1.getVotos())    
                 return c2.getVotos() - c1.getVotos();
+                else return c1.getDataNascimento().compareTo(c2.getDataNascimento());
             }
         });
     }
@@ -40,9 +42,22 @@ public class Relatorio {
         Collections.sort(partidos, new Comparator<Partido>() {
             @Override
             public int compare(Partido p1, Partido p2) {
+                if(p2.getVotosTotais()!=p1.getVotosTotais())
                 return p2.getVotosTotais() - p1.getVotosTotais();
+                else return p1.getNumero() - p2.getNumero();
             }
         });
+
+        for(Partido partido : partidos){
+            Collections.sort(partido.getCandidatos(), new Comparator<Candidato>() {
+                @Override
+                public int compare(Candidato c1, Candidato c2) {
+                    if(c2.getVotos()!=c1.getVotos())    
+                    return c2.getVotos() - c1.getVotos();
+                    else return c1.getDataNascimento().compareTo(c2.getDataNascimento());
+                }
+            });
+        }
     }
 
     public void rel1(){
@@ -146,6 +161,7 @@ public class Relatorio {
         int i=1;
         int j=0;
         DecimalFormat df = new DecimalFormat("#,###");
+        System.out.println("Votação dos partidos e número de candidatos eleitos:");
         for(Partido partido : partidos){
             System.out.print(i+" - "+partido.getSigla()+" - "+partido.getNumero()+", "+df.format(partido.getVotosTotais()).replaceAll(",", "."));
             if(partido.getVotosTotais()>=1) System.out.print(" votos ");
@@ -164,6 +180,45 @@ public class Relatorio {
             else System.out.println(j+" candidato eleito");
             i++;
         }
+    }
+
+    public void rel8(){
+        System.out.println("Primeiro e último colocados de cada partido:");
+        LinkedList <Candidato> candidatosMaisVotados = new LinkedList <Candidato>();
+        for(Partido partido : partidos){
+            if(partido.getCandidatos().isEmpty()==false && partido.getCandidatos().getFirst().getVotos()>0)
+            candidatosMaisVotados.add(partido.getCandidatos().getFirst());
+        }
+
+        Collections.sort(candidatosMaisVotados, new Comparator<Candidato>() {
+            @Override
+            public int compare(Candidato c1, Candidato c2) {
+                if(c2.getVotos()!=c1.getVotos())    
+                return c2.getVotos() - c1.getVotos();
+                else return c1.getDataNascimento().compareTo(c2.getDataNascimento());
+            }
+        });
+
+        int i=1;
+        DecimalFormat df = new DecimalFormat("#,###");
+        for(Candidato candidato : candidatosMaisVotados){
+            System.out.print(i+" - "+candidato.getSiglaPartido()+" - "+candidato.getNumeroPartido()+", "+candidato.getNome().toUpperCase()+" ("+candidato.getNumeroCandidato()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
+            if(candidato.getVotos()>1){
+                System.out.print(" votos)");
+            }
+            else{
+                System.out.print(" voto)");
+            }
+            System.out.print(" / "+candidato.getPartido().getCandidatos().getLast().getNome().toUpperCase()+" ("+candidato.getPartido().getCandidatos().getLast().getNumeroCandidato()+", "+df.format(candidato.getPartido().getCandidatos().getLast().getVotos()).replaceAll(",", "."));
+            if(candidato.getPartido().getCandidatos().getLast().getVotos()>1){
+                System.out.println(" votos)");
+            }
+            else{
+                System.out.println(" voto)");
+            }
+            i++;
+        }
+
     }
 
 }

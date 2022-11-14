@@ -2,6 +2,8 @@ package candidato;
 
 import java.util.Date;
 
+import partido.Partido;
+
 public class Candidato {
     private int tipoCandidato;
     private int situacao;
@@ -15,6 +17,7 @@ public class Candidato {
     private int genero;
 
     private int votos = 0;
+    private Partido partido;
 
     public Candidato(int tipoCandidato, int situacao, int numeroCandidato, String nome, int numeroPartido, String siglaPartido, int numeroFederacao, Date dataNascimento, int situacaoEleito, int genero) {
         this.tipoCandidato = tipoCandidato;
@@ -93,6 +96,14 @@ public class Candidato {
 
     public int getVotos() {
         return votos;
+    }
+
+    public void setPartido(Partido partido) {
+        this.partido = partido;
+    }
+
+    public Partido getPartido() {
+        return partido;
     }
 
     public void addVotos(int votos) {

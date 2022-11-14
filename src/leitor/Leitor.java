@@ -98,6 +98,7 @@ public class Leitor {
                             for(Partido partido: partidos){
                                 if(partido.getNumero()==numeroPartido){
                                     partido.addCandidato(candidato);
+                                    candidato.setPartido(partido);
                                     break;
                                 }
                             }
@@ -111,6 +112,7 @@ public class Leitor {
                             for(Partido partido: partidos){
                                 if(partido.getNumero()==numeroPartido){
                                     partido.addCandidato(candidato);
+                                    candidato.setPartido(partido);
                                     break;
                                 }
                             }

@@ -59,6 +59,10 @@ public class App {
         relatorio.rel5();
         System.out.println();
         relatorio.rel6();
+        // System.out.println();
+        // relatorio.rel7();
+        System.out.println();
+        relatorio.rel8();
         
            
     }
