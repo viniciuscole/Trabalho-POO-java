@@ -34,6 +34,21 @@ public class Partido {
         return numero;
     }
 
+    public int getVotosLegenda(){
+        return votosLegenda;
+    }
+
+    public int getVotosNominais(){
+        int votos = 0;
+        for(Candidato candidato : candidatos){
+            votos += candidato.getVotos();
+        }
+        return votos;
+    }
+
+    public int getVotosTotais(){
+        return votosLegenda + getVotosNominais();
+    }
 
     public void addVotosLegenda(int votosLegenda) {
         this.votosLegenda += votosLegenda;

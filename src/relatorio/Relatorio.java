@@ -6,13 +6,16 @@ import java.util.Comparator;
 import java.util.LinkedList;
 
 import candidato.Candidato;
+import partido.Partido;
 
 public class Relatorio {
     private LinkedList <Candidato> candidatos;
     private LinkedList <Candidato> candidatosEleitos;
+    private LinkedList <Partido> partidos;
 
-    public Relatorio(LinkedList<Candidato> candidatos) {
+    public Relatorio(LinkedList<Candidato> candidatos, LinkedList<Partido> partidos) {
         this.candidatos = candidatos;
+        this.partidos = partidos;
     }
     
     public void setCandidatosEleitos(){
@@ -29,6 +32,15 @@ public class Relatorio {
             @Override
             public int compare(Candidato c1, Candidato c2) {
                 return c2.getVotos() - c1.getVotos();
+            }
+        });
+    }
+
+    public void ordenaPartidos(){
+        Collections.sort(partidos, new Comparator<Partido>() {
+            @Override
+            public int compare(Partido p1, Partido p2) {
+                return p2.getVotosTotais() - p1.getVotosTotais();
             }
         });
     }
@@ -102,5 +114,40 @@ public class Relatorio {
             if(i==candidatosEleitos.size()+1) break;
         }
     }
-    
+
+    public void rel5(){
+        int i=1;
+        DecimalFormat df = new DecimalFormat("#,###");
+        
+        LinkedList <Candidato> candidatosMaisVotados = new LinkedList <Candidato>();
+        for(Candidato candidato : candidatos){
+            candidatosMaisVotados.add(candidato);
+            i++;
+            if(i==candidatosEleitos.size()+1) break;
+        }
+
+        System.out.println("Eleitos, que se beneficiaram do sistema proporcional:");
+        System.out.println("(com sua posição no ranking dos mais votados");
+
+        for(Candidato candidatoEleito : candidatosEleitos){
+            if(!candidatosMaisVotados.contains(candidatoEleito)){
+                System.out.print(candidatos.indexOf(candidatoEleito)+1+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getSiglaPartido()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
+                if(candidatoEleito.getVotos()>1){
+                    System.out.println(" votos)");
+                }
+                else{
+                    System.out.println(" voto)");
+                }
+            }
+        }
+    }
+
+    public void rel6(){
+        int i=1;
+        DecimalFormat df = new DecimalFormat("#,###");
+        for(Partido partido : partidos){
+            System.out.print(i+" - "+partido.getSigla()+" - "+partido.getNumero()+", "+)
+        }
+    }
+
 }

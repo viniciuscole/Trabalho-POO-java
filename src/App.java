@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import candidato.Candidato;
 import leitor.Leitor;
+import partido.Partido;
 import relatorio.Relatorio;
 
 public class App {
@@ -38,11 +39,13 @@ public class App {
             return;
         }        
         
-        Relatorio relatorio = new Relatorio(candidatos);
+        LinkedList <Partido> partidos = leitor.getPartidos();
+
+        Relatorio relatorio = new Relatorio(candidatos, partidos);
 
         relatorio.ordenaCandidatos();
         relatorio.setCandidatosEleitos();
-        
+        relatorio.ordenaPartidos();
 
         
         relatorio.rel1();
@@ -52,6 +55,8 @@ public class App {
         relatorio.rel3();
         System.out.println();
         relatorio.rel4();
+        System.out.println();
+        relatorio.rel5();
         
            
     }
