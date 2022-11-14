@@ -82,6 +82,25 @@ public class Relatorio {
             if(i==candidatosEleitos.size()+1) break;
         }
     }
-    
+
+    public void rel4(){
+        int i=1;
+        DecimalFormat df = new DecimalFormat("#,###");
+        System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:");
+        System.out.println("(com sua posição no ranking dos mais votados");
+        for(Candidato candidato : candidatos){
+            if(!candidatosEleitos.contains(candidato)){
+                System.out.print(i+" - "+candidato.getNome().toUpperCase()+" ("+candidato.getSiglaPartido()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
+                if(candidato.getVotos()>1){
+                    System.out.println(" votos)");
+                }
+                else{
+                    System.out.println(" voto)");
+                }
+            }
+            i++;
+            if(i==candidatosEleitos.size()+1) break;
+        }
+    }
     
 }
