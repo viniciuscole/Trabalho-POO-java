@@ -79,23 +79,27 @@ public class Leitor {
 
             
             int flag=0;
+            for(Partido partido: partidos){
+                if(partido.getNumero() == numeroPartido){
+                    flag=1;
+                    break;
+                }
+            }
+            if(flag==0){
+                Partido partido = new Partido(siglaPartido, numeroPartido);
+                partidos.add(partido);
+            }
             if(situacao == 2 || situacao == 16){
                 switch(tipo){
                     case 0:
                         if(tipoCandidato==6){
                             Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero);
                             candidatos.add(candidato);
-                            flag=0;
                             for(Partido partido: partidos){
                                 if(partido.getNumero()==numeroPartido){
                                     partido.addCandidato(candidato);
-                                    flag=1;
+                                    break;
                                 }
-                            }
-                            if(flag==0){
-                                Partido partido = new Partido(siglaPartido, numeroPartido);
-                                partido.addCandidato(candidato);
-                                partidos.add(partido);
                             }
                         }
                         break;
@@ -107,13 +111,8 @@ public class Leitor {
                             for(Partido partido: partidos){
                                 if(partido.getNumero()==numeroPartido){
                                     partido.addCandidato(candidato);
-                                    flag=1;
+                                    break;
                                 }
-                            }
-                            if(flag==0){
-                                Partido partido = new Partido(siglaPartido, numeroPartido);
-                                partido.addCandidato(candidato);
-                                partidos.add(partido);
                             }
                         }
                         break;

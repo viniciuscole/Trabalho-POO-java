@@ -144,9 +144,25 @@ public class Relatorio {
 
     public void rel6(){
         int i=1;
+        int j=0;
         DecimalFormat df = new DecimalFormat("#,###");
         for(Partido partido : partidos){
-            System.out.print(i+" - "+partido.getSigla()+" - "+partido.getNumero()+", "+)
+            System.out.print(i+" - "+partido.getSigla()+" - "+partido.getNumero()+", "+df.format(partido.getVotosTotais()).replaceAll(",", "."));
+            if(partido.getVotosTotais()>=1) System.out.print(" votos ");
+            else System.out.print(" voto ");
+            System.out.print("("+df.format(partido.getVotosNominais()).replaceAll(",", "."));
+            if(partido.getVotosNominais()>=1) System.out.print(" nominais e ");
+            else System.out.print(" nominal e ");
+            System.out.print(df.format(partido.getVotosLegenda()).replaceAll(",", ".")+" de legenda), ");
+            j=0;
+            for(Candidato candidato : partido.getCandidatos()){
+                if(candidatosEleitos.contains(candidato)){
+                    j++;
+                }
+            }
+            if(j>1) System.out.println(j+" candidatos eleitos");
+            else System.out.println(j+" candidato eleito");
+            i++;
         }
     }
 
