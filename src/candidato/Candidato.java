@@ -9,8 +9,6 @@ public class Candidato {
     private int situacao;
     private int numeroCandidato;
     private String nome;
-    private int numeroPartido;
-    private String siglaPartido;
     private int numeroFederacao;
     private Date dataNascimento;
     private int situacaoEleito;
@@ -19,13 +17,11 @@ public class Candidato {
     private int votos = 0;
     private Partido partido;
 
-    public Candidato(int tipoCandidato, int situacao, int numeroCandidato, String nome, int numeroPartido, String siglaPartido, int numeroFederacao, Date dataNascimento, int situacaoEleito, int genero) {
+    public Candidato(int tipoCandidato, int situacao, int numeroCandidato, String nome, int numeroFederacao, Date dataNascimento, int situacaoEleito, int genero) {
         this.tipoCandidato = tipoCandidato;
         this.situacao = situacao;
         this.numeroCandidato = numeroCandidato;
         this.nome = nome;
-        this.numeroPartido = numeroPartido;
-        this.siglaPartido = siglaPartido;
         this.numeroFederacao = numeroFederacao;
         this.dataNascimento = dataNascimento;
         this.situacaoEleito = situacaoEleito;
@@ -56,19 +52,6 @@ public class Candidato {
     public String getNome() {
         return nome;
     }
-
-    
-    
-    public int getNumeroPartido() {
-        return numeroPartido;
-    }
-    
-    
-    
-    public String getSiglaPartido() {
-        return siglaPartido;
-    }
-    
     
 
     public int getNumeroFederacao() {
@@ -114,7 +97,7 @@ public class Candidato {
     @Override
     public String toString() {
         return "Candidato [tipoCandidato=" + tipoCandidato + ", situacao=" + situacao + ", numeroCandidato=" + numeroCandidato + ", nome="
-                + nome + ", numeroPartido=" + numeroPartido + ", siglaPartido=" + siglaPartido + ", numeroFederacao="
+                + nome + ", numeroFederacao="
                 + numeroFederacao + ", dataNascimento=" + dataNascimento + ", situacaoEleito=" + situacaoEleito
                 + ", genero=" + genero + ", votos=" + votos + "]";
     }

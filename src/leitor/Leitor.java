@@ -93,7 +93,7 @@ public class Leitor {
                 switch(tipo){
                     case 0:
                         if(tipoCandidato==6){
-                            Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero);
+                            Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroFederacao, dataNascimento, situacaoEleito, genero);
                             candidatos.add(candidato);
                             for(Partido partido: partidos){
                                 if(partido.getNumero()==numeroPartido){
@@ -106,7 +106,7 @@ public class Leitor {
                         break;
                     case 1:
                         if(tipoCandidato==7){
-                            Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroPartido, siglaPartido, numeroFederacao, dataNascimento, situacaoEleito, genero);
+                            Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroFederacao, dataNascimento, situacaoEleito, genero);
                             candidatos.add(candidato);
                             flag=0;
                             for(Partido partido: partidos){

@@ -71,10 +71,10 @@ public class Relatorio {
         for(Candidato candidatoEleito : candidatosEleitos){
 
             if(candidatoEleito.getNumeroFederacao()==-1)
-                System.out.print(i+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getSiglaPartido()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
+                System.out.print(i+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
             
             else 
-                System.out.print(i+" - *"+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getSiglaPartido()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
+                System.out.print(i+" - *"+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
             
             if(candidatoEleito.getVotos()>1){
                 System.out.println(" votos)");
@@ -94,9 +94,9 @@ public class Relatorio {
         for(Candidato candidato : candidatos){
 
             if(candidato.getNumeroFederacao()==-1)
-                System.out.print(i+" - "+candidato.getNome().toUpperCase()+" ("+candidato.getSiglaPartido()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
+                System.out.print(i+" - "+candidato.getNome().toUpperCase()+" ("+candidato.getPartido().getSigla()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
             
-            else System.out.print(i+" - *"+candidato.getNome().toUpperCase()+" ("+candidato.getSiglaPartido()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
+            else System.out.print(i+" - *"+candidato.getNome().toUpperCase()+" ("+candidato.getPartido().getSigla()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
             
             if(candidato.getVotos()>1){
                 System.out.println(" votos)");
@@ -117,7 +117,9 @@ public class Relatorio {
         System.out.println("(com sua posição no ranking dos mais votados");
         for(Candidato candidato : candidatos){
             if(!candidatosEleitos.contains(candidato)){
-                System.out.print(i+" - "+candidato.getNome().toUpperCase()+" ("+candidato.getSiglaPartido()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
+                if(candidato.getNumeroFederacao()==-1)
+                    System.out.print(i+" - "+candidato.getNome().toUpperCase()+" ("+candidato.getPartido().getSigla()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
+                else System.out.print(i+" - *"+candidato.getNome().toUpperCase()+" ("+candidato.getPartido().getSigla()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
                 if(candidato.getVotos()>1){
                     System.out.println(" votos)");
                 }
@@ -146,7 +148,9 @@ public class Relatorio {
 
         for(Candidato candidatoEleito : candidatosEleitos){
             if(!candidatosMaisVotados.contains(candidatoEleito)){
-                System.out.print(candidatos.indexOf(candidatoEleito)+1+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getSiglaPartido()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
+                if(candidatoEleito.getNumeroFederacao()==-1)
+                    System.out.print(candidatos.indexOf(candidatoEleito)+1+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
+                else System.out.print(candidatos.indexOf(candidatoEleito)+1+" - *"+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
                 if(candidatoEleito.getVotos()>1){
                     System.out.println(" votos)");
                 }
@@ -202,7 +206,7 @@ public class Relatorio {
         int i=1;
         DecimalFormat df = new DecimalFormat("#,###");
         for(Candidato candidato : candidatosMaisVotados){
-            System.out.print(i+" - "+candidato.getSiglaPartido()+" - "+candidato.getNumeroPartido()+", "+candidato.getNome().toUpperCase()+" ("+candidato.getNumeroCandidato()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
+            System.out.print(i+" - "+candidato.getPartido().getSigla()+" - "+candidato.getPartido().getNumero()+", "+candidato.getNome().toUpperCase()+" ("+candidato.getNumeroCandidato()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
             if(candidato.getVotos()>1){
                 System.out.print(" votos)");
             }
