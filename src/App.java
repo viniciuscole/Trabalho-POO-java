@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 
 import candidato.Candidato;
@@ -19,7 +21,8 @@ public class App {
         String voters_archive = args[2];
         String date = args[3];
 
-        
+        Date dataEleicao = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+
         Leitor leitor = new Leitor(candidates_archive);
         LinkedList <Candidato> candidatos = new LinkedList <Candidato>();
         
@@ -41,7 +44,7 @@ public class App {
         
         LinkedList <Partido> partidos = leitor.getPartidos();
 
-        Relatorio relatorio = new Relatorio(candidatos, partidos);
+        Relatorio relatorio = new Relatorio(candidatos, partidos, dataEleicao);
 
         relatorio.ordenaCandidatos();
         relatorio.setCandidatosEleitos();
@@ -63,6 +66,8 @@ public class App {
         // relatorio.rel7();
         System.out.println();
         relatorio.rel8();
+        System.out.println();
+        relatorio.rel9();
         
            
     }
