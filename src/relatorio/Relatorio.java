@@ -261,6 +261,27 @@ public class Relatorio {
             else if(candidato.getGenero()==4) qtdFeminino++;
         }
         System.out.println("Eleitos, por gênero:");
+        System.out.printf("Feminino: %d (%.2f%%)\n", qtdFeminino, (float)qtdFeminino/candidatosEleitos.size()*100);
+        System.out.printf("Masculino: %d (%.2f%%)\n", qtdMasculino, (float)qtdMasculino/candidatosEleitos.size()*100);
     }
 
+    public void rel11(){
+        int votosNominais=0;
+        int votosLegenda=0;
+        for(Candidato candidato : candidatos){
+            votosNominais+=candidato.getVotos();
+        }
+
+        for(Partido partido : partidos){
+            votosLegenda+=partido.getVotosLegenda();
+        }
+
+        DecimalFormat df = new DecimalFormat("#,###");
+
+        System.out.println("Total de votos válidos: "+df.format(votosNominais+votosLegenda).replaceAll(",", "."));
+        System.out.print("Total de votos nominais: "+df.format(votosNominais).replaceAll(",", "."));
+        System.out.printf(" (%.2f%%)\n", (float)votosNominais/(votosNominais+votosLegenda)*100);
+        System.out.print("Total de votos de legenda: "+df.format(votosLegenda).replaceAll(",", "."));
+        System.out.printf(" (%.2f%%)\n", (float)votosLegenda/(votosNominais+votosLegenda)*100);
+    }
 }
