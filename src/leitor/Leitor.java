@@ -20,6 +20,7 @@ public class Leitor {
     private BufferedReader br;
 
     private LinkedList <Partido> partidos = new LinkedList <Partido>();
+    private LinkedList <Candidato> candidatosVotoLegenda = new LinkedList <Candidato>();
 
 
     public Leitor(String path){
@@ -37,11 +38,15 @@ public class Leitor {
     public LinkedList <Partido> getPartidos() {
         return partidos;
     }
+
+    public LinkedList <Candidato> getCandidatosVotoLegenda() {
+        return candidatosVotoLegenda;
+    }
     
     public LinkedList <Candidato> setCandidates(LinkedList <Candidato> candidatos, int tipo) throws IOException, ParseException{   //0 para federal, 1 para estadual
 
         final int tipoCandidatoIndex= 13;
-        final int situacaoIndex= 24;
+        final int situacaoIndex= 69;
         final int numeroCandidatoIndex= 16;
         final int nomeIndex=18;
         final int numeroPartidoIndex=27;
@@ -50,6 +55,8 @@ public class Leitor {
         final int dataNascimentoIndex=42;
         final int situacaoEleitIndex=56;
         final int generoIndex=45;
+        final int tipoVotoIndex= 68;
+
 
 
         is = new FileInputStream(path);
@@ -76,6 +83,7 @@ public class Leitor {
             Date dataNascimento = new SimpleDateFormat("dd/MM/yyyy").parse(data[dataNascimentoIndex].replaceAll("\"", ""));
             int situacaoEleito = Integer.parseInt(data[situacaoEleitIndex].replaceAll("\"", ""));
             int genero = Integer.parseInt(data[generoIndex].replaceAll("\"", ""));
+            String tipoVoto = data[tipoVotoIndex].replaceAll("\"", "");
 
             
             int flag=0;
@@ -89,6 +97,12 @@ public class Leitor {
                 Partido partido = new Partido(siglaPartido, numeroPartido);
                 partidos.add(partido);
             }
+
+            if(tipoVoto== "Válido (legenda)"){
+                Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroFederacao, dataNascimento, situacaoEleito, genero);
+                candidatosVotoLegenda.add(candidato);
+            }
+
             if(situacao == 2 || situacao == 16){
                 switch(tipo){
                     case 0:
@@ -128,7 +142,7 @@ public class Leitor {
         return candidatos;
     }
 
-    public LinkedList<Candidato> setVotes(LinkedList<Candidato> candidatos, int tipo) throws IOException{
+    public LinkedList<Candidato> setVotes(LinkedList<Candidato> candidatos, LinkedList <Candidato> candidatoVotoLegenda, int tipo) throws IOException{
 
         final int cargoIndex= 17;
         final int numeroCandidatoIndex= 19;
@@ -156,6 +170,13 @@ public class Leitor {
                 switch(tipo){
                     case 0:
                         if(cargo==6){
+
+                            for(Candidato candidato: candidatosVotoLegenda){
+                                if(candidato.getNumeroCandidato()==numeroVoto){
+                                    candidato.getPartido().addVotosLegenda(qtdVotos);
+                                    break;
+                                }
+                            }
                             for(Candidato candidato: candidatos){
                                 if(candidato.getNumeroCandidato()==numeroVoto){
                                     candidato.addVotos(qtdVotos);
@@ -172,6 +193,12 @@ public class Leitor {
                         break;
                     case 1:
                         if(cargo==7){
+                            for(Candidato candidato: candidatosVotoLegenda){
+                                if(candidato.getNumeroCandidato()==numeroVoto){
+                                    candidato.getPartido().addVotosLegenda(qtdVotos);
+                                    break;
+                                }
+                            }
                             for(Candidato candidato: candidatos){
                                 if(candidato.getNumeroCandidato()==numeroVoto){
                                     candidato.addVotos(qtdVotos);

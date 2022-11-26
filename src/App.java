@@ -25,17 +25,20 @@ public class App {
 
         Leitor leitor = new Leitor(candidates_archive);
         LinkedList <Candidato> candidatos = new LinkedList <Candidato>();
+        LinkedList <Candidato> candidatosVotoLegenda = new LinkedList <Candidato>();
         
         switch(option){
             case "--federal":
                 candidatos = leitor.setCandidates(candidatos, 0);
                 leitor.setPath(voters_archive);
-                candidatos = leitor.setVotes(candidatos, 0);
+                candidatosVotoLegenda = leitor.getCandidatosVotoLegenda();
+                candidatos = leitor.setVotes(candidatos,candidatosVotoLegenda, 0);
                 break;
             case "--estadual":
                 candidatos = leitor.setCandidates(candidatos, 1);
                 leitor.setPath(voters_archive);
-                candidatos = leitor.setVotes(candidatos, 1);
+                candidatosVotoLegenda = leitor.getCandidatosVotoLegenda();
+                candidatos = leitor.setVotes(candidatos,candidatosVotoLegenda, 1);
                 break;
             default:
             System.out.println("Invalid option");
