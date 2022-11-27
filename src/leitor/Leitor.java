@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import candidato.Candidato;
@@ -43,7 +44,7 @@ public class Leitor {
         return candidatosVotoLegenda;
     }
     
-    public LinkedList <Candidato> setCandidates(LinkedList <Candidato> candidatos, int tipo) throws IOException, ParseException{   //0 para federal, 1 para estadual
+    public HashMap<Integer, Candidato> setCandidates(HashMap<Integer, Candidato> candidatos, int tipo) throws IOException, ParseException{   //0 para federal, 1 para estadual
 
         final int tipoCandidatoIndex= 13;
         final int situacaoIndex= 68;
@@ -122,7 +123,7 @@ public class Leitor {
                     case 0:
                         if(tipoCandidato==6){
                             Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroFederacao, dataNascimento, situacaoEleito, genero);
-                            candidatos.add(candidato);
+                            candidatos.put(numeroCandidato, candidato);
                             for(Partido partido: partidos){
                                 if(partido.getNumero()==numeroPartido){
                                     partido.addCandidato(candidato);
@@ -135,7 +136,7 @@ public class Leitor {
                     case 1:
                         if(tipoCandidato==7){
                             Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroFederacao, dataNascimento, situacaoEleito, genero);
-                            candidatos.add(candidato);
+                            candidatos.put(numeroCandidato, candidato);
                             flag=0;
                             for(Partido partido: partidos){
                                 if(partido.getNumero()==numeroPartido){
@@ -156,7 +157,7 @@ public class Leitor {
         return candidatos;
     }
 
-    public LinkedList<Candidato> setVotes(LinkedList<Candidato> candidatos, LinkedList <Candidato> candidatoVotoLegenda, int tipo) throws IOException{
+    public HashMap<Integer, Candidato> setVotes(HashMap<Integer, Candidato> candidatos, LinkedList <Candidato> candidatoVotoLegenda, int tipo) throws IOException{
 
         final int cargoIndex= 17;
         final int numeroCandidatoIndex= 19;
@@ -190,14 +191,12 @@ public class Leitor {
                                     candidato.getPartido().addVotosLegenda(qtdVotos);
                                     break;
                                 }
-                            }            
-                            for(Candidato candidato: candidatos){
-                                if(candidato.getNumeroCandidato()==numeroVoto){
-                                    candidato.addVotos(qtdVotos);
-                                    break;
-                                }
                             }
-                            
+                            try{
+                                candidatos.get(numeroVoto).addVotos(qtdVotos);
+                            }
+                            catch(NullPointerException e){
+                            }
                             for(Partido partido: partidos){
                                 if(partido.getNumero()==numeroVoto){
                                     partido.addVotosLegenda(qtdVotos);
@@ -213,12 +212,11 @@ public class Leitor {
                                     candidato.getPartido().addVotosLegenda(qtdVotos);
                                 }
                                 break;
-                            }            
-                            for(Candidato candidato: candidatos){
-                                if(candidato.getNumeroCandidato()==numeroVoto){
-                                    candidato.addVotos(qtdVotos);
-                                    break;
-                                }
+                            }
+                            try{        
+                                candidatos.get(numeroVoto).addVotos(qtdVotos);
+                            }
+                            catch(NullPointerException e){
                             }
                             for(Partido partido: partidos){
                                 if(partido.getNumero()==numeroVoto){

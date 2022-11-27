@@ -7,28 +7,31 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import candidato.Candidato;
 import partido.Partido;
 
 public class Relatorio {
-    private LinkedList <Candidato> candidatos;
+    private HashMap<Integer, Candidato> candidatos;
+    private LinkedList <Candidato> candidatosList;
     private LinkedList <Candidato> candidatosEleitos;
     private LinkedList <Partido> partidos;
     private int tipoEleicao;
     private Date dataEleicao;
 
-    public Relatorio(LinkedList<Candidato> candidatos, LinkedList<Partido> partidos, Date dataEleicao, int tipoEleicao) {
+    public Relatorio(HashMap<Integer, Candidato> candidatos, LinkedList<Partido> partidos, Date dataEleicao, int tipoEleicao) {
         this.candidatos = candidatos;
         this.partidos = partidos;
         this.dataEleicao = dataEleicao;
         this.tipoEleicao = tipoEleicao;
+        this.candidatosList = new LinkedList <Candidato>(this.candidatos.values());
     }
     
     public void setCandidatosEleitos(){
         candidatosEleitos = new LinkedList <Candidato>();
-        for(Candidato candidato : candidatos){
+        for(Candidato candidato : candidatosList){
             if(candidato.getSituacaoEleito()==2 || candidato.getSituacaoEleito()==3){
                 candidatosEleitos.add(candidato);
             }
@@ -36,7 +39,7 @@ public class Relatorio {
     }
 
     public void ordenaCandidatos(){
-        Collections.sort(candidatos, new Comparator<Candidato>() {
+        Collections.sort(candidatosList, new Comparator<Candidato>() {
             @Override
             public int compare(Candidato c1, Candidato c2) {
                 if(c2.getVotos()!=c1.getVotos())    
@@ -101,7 +104,7 @@ public class Relatorio {
         int i=1;
         DecimalFormat df = new DecimalFormat("#,###");
         System.out.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
-        for(Candidato candidato : candidatos){
+        for(Candidato candidato : candidatosList){
 
             if(candidato.getNumeroFederacao()==-1)
                 System.out.print(i+" - "+candidato.getNome().toUpperCase()+" ("+candidato.getPartido().getSigla()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
@@ -125,7 +128,7 @@ public class Relatorio {
         DecimalFormat df = new DecimalFormat("#,###");
         System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:");
         System.out.println("(com sua posição no ranking de mais votados)");
-        for(Candidato candidato : candidatos){
+        for(Candidato candidato : candidatosList){
             if(!candidatosEleitos.contains(candidato)){
                 if(candidato.getNumeroFederacao()==-1)
                     System.out.print(i+" - "+candidato.getNome().toUpperCase()+" ("+candidato.getPartido().getSigla()+", "+df.format(candidato.getVotos()).replaceAll(",", "."));
@@ -147,7 +150,7 @@ public class Relatorio {
         DecimalFormat df = new DecimalFormat("#,###");
         
         LinkedList <Candidato> candidatosMaisVotados = new LinkedList <Candidato>();
-        for(Candidato candidato : candidatos){
+        for(Candidato candidato : candidatosList){
             candidatosMaisVotados.add(candidato);
             i++;
             if(i==candidatosEleitos.size()+1) break;
@@ -159,8 +162,8 @@ public class Relatorio {
         for(Candidato candidatoEleito : candidatosEleitos){
             if(!candidatosMaisVotados.contains(candidatoEleito)){
                 if(candidatoEleito.getNumeroFederacao()==-1)
-                    System.out.print(candidatos.indexOf(candidatoEleito)+1+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
-                else System.out.print(candidatos.indexOf(candidatoEleito)+1+" - *"+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
+                    System.out.print(candidatosList.indexOf(candidatoEleito)+1+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
+                else System.out.print(candidatosList.indexOf(candidatoEleito)+1+" - *"+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
                 if(candidatoEleito.getVotos()>1){
                     System.out.println(" votos)");
                 }
@@ -310,7 +313,7 @@ public class Relatorio {
 
         int votosNominais=0;
         int votosLegenda=0;
-        for(Candidato candidato : candidatos){
+        for(Candidato candidato : candidatosList){
             votosNominais+=candidato.getVotos();
         }
 

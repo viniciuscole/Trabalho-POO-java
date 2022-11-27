@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import candidato.Candidato;
@@ -25,7 +26,7 @@ public class App {
         Date dataEleicao = new SimpleDateFormat("dd/MM/yyyy").parse(date);
 
         Leitor leitor = new Leitor(candidates_archive);
-        LinkedList <Candidato> candidatos = new LinkedList <Candidato>();
+        HashMap<Integer, Candidato> candidatos = new HashMap <Integer, Candidato>();
         LinkedList <Candidato> candidatosVotoLegenda = new LinkedList <Candidato>();
         
         switch(option){
@@ -46,6 +47,7 @@ public class App {
         candidatos = leitor.setVotes(candidatos,candidatosVotoLegenda, tipo);
         
         LinkedList <Partido> partidos = leitor.getPartidos();
+        
 
         Relatorio relatorio = new Relatorio(candidatos, partidos, dataEleicao, tipo);
 
