@@ -20,6 +20,7 @@ public class App {
         String candidates_archive = args[1];
         String voters_archive = args[2];
         String date = args[3];
+        int tipo=0;
 
         Date dataEleicao = new SimpleDateFormat("dd/MM/yyyy").parse(date);
 
@@ -29,25 +30,24 @@ public class App {
         
         switch(option){
             case "--federal":
-                candidatos = leitor.setCandidates(candidatos, 0);
-                leitor.setPath(voters_archive);
-                candidatosVotoLegenda = leitor.getCandidatosVotoLegenda();
-                candidatos = leitor.setVotes(candidatos,candidatosVotoLegenda, 0);
+                tipo=0;
                 break;
             case "--estadual":
-                candidatos = leitor.setCandidates(candidatos, 1);
-                leitor.setPath(voters_archive);
-                candidatosVotoLegenda = leitor.getCandidatosVotoLegenda();
-                candidatos = leitor.setVotes(candidatos,candidatosVotoLegenda, 1);
+                tipo=1;
                 break;
             default:
             System.out.println("Invalid option");
             return;
-        }        
+        }
+        
+        candidatos = leitor.setCandidates(candidatos, tipo);
+        leitor.setPath(voters_archive);
+        candidatosVotoLegenda = leitor.getCandidatosVotoLegenda();
+        candidatos = leitor.setVotes(candidatos,candidatosVotoLegenda, tipo);
         
         LinkedList <Partido> partidos = leitor.getPartidos();
 
-        Relatorio relatorio = new Relatorio(candidatos, partidos, dataEleicao);
+        Relatorio relatorio = new Relatorio(candidatos, partidos, dataEleicao, tipo);
 
         relatorio.ordenaCandidatos();
         relatorio.setCandidatosEleitos();

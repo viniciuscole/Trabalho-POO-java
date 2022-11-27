@@ -46,7 +46,7 @@ public class Leitor {
     public LinkedList <Candidato> setCandidates(LinkedList <Candidato> candidatos, int tipo) throws IOException, ParseException{   //0 para federal, 1 para estadual
 
         final int tipoCandidatoIndex= 13;
-        final int situacaoIndex= 69;
+        final int situacaoIndex= 68;
         final int numeroCandidatoIndex= 16;
         final int nomeIndex=18;
         final int numeroPartidoIndex=27;
@@ -55,7 +55,7 @@ public class Leitor {
         final int dataNascimentoIndex=42;
         final int situacaoEleitIndex=56;
         final int generoIndex=45;
-        final int tipoVotoIndex= 68;
+        final int tipoVotoIndex= 67;
 
 
 
@@ -66,13 +66,14 @@ public class Leitor {
         
         String line=br.readLine();
         String[] data;
+        int dateParseError=0;
 
         while(line != null){
             line = br.readLine();
             if(line==null) break;
             data = line.split(";");
                 
-
+            dateParseError=0;
             int tipoCandidato = Integer.parseInt(data[tipoCandidatoIndex].replaceAll("\"", ""));
             int situacao = Integer.parseInt(data[situacaoIndex].replaceAll("\"", ""));
             int numeroCandidato = Integer.parseInt(data[numeroCandidatoIndex].replaceAll("\"", ""));
@@ -80,7 +81,14 @@ public class Leitor {
             int numeroPartido = Integer.parseInt(data[numeroPartidoIndex].replaceAll("\"", ""));
             String siglaPartido = data[siglaPartidoIndex].replaceAll("\"", "");
             int numeroFederacao = Integer.parseInt(data[numeroFederacaoIndex].replaceAll("\"", ""));
-            Date dataNascimento = new SimpleDateFormat("dd/MM/yyyy").parse(data[dataNascimentoIndex].replaceAll("\"", ""));
+            Date dataNascimento = null;
+            try{
+               dataNascimento = new SimpleDateFormat("dd/MM/yyyy").parse(data[dataNascimentoIndex].replaceAll("\"", ""));
+            }
+            catch(ParseException e){
+                dateParseError=1;
+            }
+
             int situacaoEleito = Integer.parseInt(data[situacaoEleitIndex].replaceAll("\"", ""));
             int genero = Integer.parseInt(data[generoIndex].replaceAll("\"", ""));
             String tipoVoto = data[tipoVotoIndex].replaceAll("\"", "");
@@ -98,12 +106,18 @@ public class Leitor {
                 partidos.add(partido);
             }
 
-            if(tipoVoto== "Válido (legenda)"){
+            if(tipoVoto.equals("Válido (legenda)")){
                 Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroFederacao, dataNascimento, situacaoEleito, genero);
                 candidatosVotoLegenda.add(candidato);
+                for(Partido partido: partidos){
+                    if(partido.getNumero()==numeroPartido){
+                        candidato.setPartido(partido);
+                        break;
+                    }
+                }
             }
 
-            if(situacao == 2 || situacao == 16){
+            if(dateParseError==0 &&(situacao == 2 || situacao == 16)){
                 switch(tipo){
                     case 0:
                         if(tipoCandidato==6){
@@ -167,22 +181,23 @@ public class Leitor {
             int qtdVotos = Integer.parseInt(data[qtdeVotosIndex].replaceAll("\"", ""));
 
             if(numeroVoto != 95 || numeroVoto != 96 || numeroVoto != 97 || numeroVoto != 98){
+                            
                 switch(tipo){
                     case 0:
                         if(cargo==6){
-
-                            for(Candidato candidato: candidatosVotoLegenda){
+                            for(Candidato candidato: candidatoVotoLegenda){
                                 if(candidato.getNumeroCandidato()==numeroVoto){
                                     candidato.getPartido().addVotosLegenda(qtdVotos);
                                     break;
                                 }
-                            }
+                            }            
                             for(Candidato candidato: candidatos){
                                 if(candidato.getNumeroCandidato()==numeroVoto){
                                     candidato.addVotos(qtdVotos);
                                     break;
                                 }
                             }
+                            
                             for(Partido partido: partidos){
                                 if(partido.getNumero()==numeroVoto){
                                     partido.addVotosLegenda(qtdVotos);
@@ -193,12 +208,12 @@ public class Leitor {
                         break;
                     case 1:
                         if(cargo==7){
-                            for(Candidato candidato: candidatosVotoLegenda){
+                            for(Candidato candidato: candidatoVotoLegenda){
                                 if(candidato.getNumeroCandidato()==numeroVoto){
                                     candidato.getPartido().addVotosLegenda(qtdVotos);
-                                    break;
                                 }
-                            }
+                                break;
+                            }            
                             for(Candidato candidato: candidatos){
                                 if(candidato.getNumeroCandidato()==numeroVoto){
                                     candidato.addVotos(qtdVotos);

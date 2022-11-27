@@ -1,9 +1,12 @@
 package relatorio;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 import candidato.Candidato;
@@ -13,12 +16,14 @@ public class Relatorio {
     private LinkedList <Candidato> candidatos;
     private LinkedList <Candidato> candidatosEleitos;
     private LinkedList <Partido> partidos;
+    private int tipoEleicao;
     private Date dataEleicao;
 
-    public Relatorio(LinkedList<Candidato> candidatos, LinkedList<Partido> partidos, Date dataEleicao) {
+    public Relatorio(LinkedList<Candidato> candidatos, LinkedList<Partido> partidos, Date dataEleicao, int tipoEleicao) {
         this.candidatos = candidatos;
         this.partidos = partidos;
         this.dataEleicao = dataEleicao;
+        this.tipoEleicao = tipoEleicao;
     }
     
     public void setCandidatosEleitos(){
@@ -70,7 +75,9 @@ public class Relatorio {
     public void rel2(){
         int i=1;
         DecimalFormat df = new DecimalFormat("#,###");
-        System.out.println("Deputados estaduais eleitos:");
+        if(tipoEleicao==1)    
+            System.out.println("Deputados estaduais eleitos:");
+        else if(tipoEleicao==0) System.out.println("Deputados federais eleitos:");
         for(Candidato candidatoEleito : candidatosEleitos){
 
             if(candidatoEleito.getNumeroFederacao()==-1)
@@ -117,7 +124,7 @@ public class Relatorio {
         int i=1;
         DecimalFormat df = new DecimalFormat("#,###");
         System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:");
-        System.out.println("(com sua posição no ranking dos mais votados");
+        System.out.println("(com sua posição no ranking de mais votados)");
         for(Candidato candidato : candidatos){
             if(!candidatosEleitos.contains(candidato)){
                 if(candidato.getNumeroFederacao()==-1)
@@ -147,7 +154,7 @@ public class Relatorio {
         }
 
         System.out.println("Eleitos, que se beneficiaram do sistema proporcional:");
-        System.out.println("(com sua posição no ranking dos mais votados");
+        System.out.println("(com sua posição no ranking de mais votados)");
 
         for(Candidato candidatoEleito : candidatosEleitos){
             if(!candidatosMaisVotados.contains(candidatoEleito)){
@@ -229,6 +236,11 @@ public class Relatorio {
     }
 
     public void rel9(){
+
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        nf.setMaximumFractionDigits(2);
+        nf.setMinimumFractionDigits(2);
+
         int menorQue30=0;
         int menorQue40=0;
         int menorQue50=0;
@@ -236,23 +248,52 @@ public class Relatorio {
         int maiorQue60=0;
 
         for(Candidato candidato : candidatosEleitos){
-            long diff = dataEleicao.getTime() - candidato.getDataNascimento().getTime();
-            int idade = (int) (diff / (1000l * 60 * 60 * 24 * 365));
+
+            Calendar dataNasc = new GregorianCalendar();
+            dataNasc.setTime(candidato.getDataNascimento());
+
+            Calendar dataAtual = new GregorianCalendar();
+            dataAtual.setTime(dataEleicao);
+
+            int idade = dataAtual.get(Calendar.YEAR) - dataNasc.get(Calendar.YEAR);
+
+            if(dataAtual.get(Calendar.MONTH) < dataNasc.get(Calendar.MONTH)){
+                idade--;
+            }
+            else{
+                if(dataAtual.get(Calendar.MONTH) == dataNasc.get(Calendar.MONTH) && dataAtual.get(Calendar.DAY_OF_MONTH) < dataNasc.get(Calendar.DAY_OF_MONTH)){
+                    idade--;
+                }
+            }
+
+
             if(idade<30) menorQue30++;
             else if(idade<40) menorQue40++;
             else if(idade<50) menorQue50++;
             else if(idade<60) menorQue60++;
             else maiorQue60++;
         }
+
+        float porcentagemMenorQue30 = (float)menorQue30/candidatosEleitos.size()*100;
+        float porcentagemMenorQue40 = (float)menorQue40/candidatosEleitos.size()*100;
+        float porcentagemMenorQue50 = (float)menorQue50/candidatosEleitos.size()*100;
+        float porcentagemMenorQue60 = (float)menorQue60/candidatosEleitos.size()*100;
+        float porcentagemMaiorQue60 = (float)maiorQue60/candidatosEleitos.size()*100;
+
+
+
         System.out.println("Eleitos, por faixa etária (na data da eleição):");
-        System.out.printf("\tIdade < 30: %d (%.2f%%)\n", menorQue30, (float)menorQue30/candidatosEleitos.size()*100);
-        System.out.printf("30 <= Idade < 40: %d (%.2f%%)\n", menorQue40, (float)menorQue40/candidatosEleitos.size()*100);
-        System.out.printf("40 <= Idade < 50: %d (%.2f%%)\n", menorQue50, (float)menorQue50/candidatosEleitos.size()*100);
-        System.out.printf("50 <= Idade < 60: %d (%.2f%%)\n", menorQue60, (float)menorQue60/candidatosEleitos.size()*100);
-        System.out.printf("60 <= Idade \t: %d (%.2f%%)\n", maiorQue60, (float)maiorQue60/candidatosEleitos.size()*100);
+        System.out.println("      Idade < 30: "+menorQue30+" ("+nf.format(porcentagemMenorQue30).replace('.', ',')+"%)");
+        System.out.println("30 <= Idade < 40: "+menorQue40+" ("+nf.format(porcentagemMenorQue40).replace('.', ',')+"%)");
+        System.out.println("40 <= Idade < 50: "+menorQue50+" ("+nf.format(porcentagemMenorQue50).replace('.', ',')+"%)");
+        System.out.println("50 <= Idade < 60: "+menorQue60+" ("+nf.format(porcentagemMenorQue60).replace('.', ',')+"%)");
+        System.out.println("60 <= Idade     : "+maiorQue60+" ("+nf.format(porcentagemMaiorQue60).replace('.', ',')+"%)");
     }
 
     public void rel10(){
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        nf.setMaximumFractionDigits(2);
+        nf.setMinimumFractionDigits(2);
         int qtdMasculino=0;
         int qtdFeminino=0;
 
@@ -261,11 +302,12 @@ public class Relatorio {
             else if(candidato.getGenero()==4) qtdFeminino++;
         }
         System.out.println("Eleitos, por gênero:");
-        System.out.printf("Feminino: %d (%.2f%%)\n", qtdFeminino, (float)qtdFeminino/candidatosEleitos.size()*100);
-        System.out.printf("Masculino: %d (%.2f%%)\n", qtdMasculino, (float)qtdMasculino/candidatosEleitos.size()*100);
+        System.out.println("Feminino: "+qtdFeminino+" ("+nf.format((float)qtdFeminino/candidatosEleitos.size()*100).replace('.', ',')+"%)");
+        System.out.println("Masculino: "+qtdMasculino+" ("+nf.format((float)qtdMasculino/candidatosEleitos.size()*100).replace('.', ',')+"%)");
     }
 
     public void rel11(){
+
         int votosNominais=0;
         int votosLegenda=0;
         for(Candidato candidato : candidatos){
@@ -278,10 +320,14 @@ public class Relatorio {
 
         DecimalFormat df = new DecimalFormat("#,###");
 
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        nf.setMaximumFractionDigits(2);
+        nf.setMinimumFractionDigits(2);
+
         System.out.println("Total de votos válidos: "+df.format(votosNominais+votosLegenda).replaceAll(",", "."));
-        System.out.print("Total de votos nominais: "+df.format(votosNominais).replaceAll(",", "."));
-        System.out.printf(" (%.2f%%)\n", (float)votosNominais/(votosNominais+votosLegenda)*100);
+        System.out.print("Total de votos nominais:   "+df.format(votosNominais).replaceAll(",", "."));
+        System.out.println(" ("+nf.format((float)votosNominais/(votosNominais+votosLegenda)*100).replace('.', ',')+"%)");
         System.out.print("Total de votos de legenda: "+df.format(votosLegenda).replaceAll(",", "."));
-        System.out.printf(" (%.2f%%)\n", (float)votosLegenda/(votosNominais+votosLegenda)*100);
+        System.out.println(" ("+nf.format((float)votosLegenda/(votosNominais+votosLegenda)*100).replace('.', ',')+"%)");
     }
 }
