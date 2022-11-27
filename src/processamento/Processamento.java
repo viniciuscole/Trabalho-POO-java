@@ -1,4 +1,4 @@
-package relatorio;
+package processamento;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import candidato.Candidato;
 import partido.Partido;
 
-public class Relatorio {
+public class Processamento {
     private HashMap<Integer, Candidato> candidatos;
     private LinkedList <Candidato> candidatosList;
     private LinkedList <Candidato> candidatosEleitos;
@@ -21,7 +21,7 @@ public class Relatorio {
     private int tipoEleicao;
     private Date dataEleicao;
 
-    public Relatorio(HashMap<Integer, Candidato> candidatos, LinkedList<Partido> partidos, Date dataEleicao, int tipoEleicao) {
+    public Processamento(HashMap<Integer, Candidato> candidatos, LinkedList<Partido> partidos, Date dataEleicao, int tipoEleicao) {
         this.candidatos = candidatos;
         this.partidos = partidos;
         this.dataEleicao = dataEleicao;

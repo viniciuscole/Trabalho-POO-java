@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import candidato.Candidato;
 import leitor.Leitor;
 import partido.Partido;
-import relatorio.Relatorio;
+import processamento.Processamento;
 
 public class App {
     public static void main(String[] args) throws IOException, ParseException{
@@ -49,34 +49,34 @@ public class App {
         LinkedList <Partido> partidos = leitor.getPartidos();
         
 
-        Relatorio relatorio = new Relatorio(candidatos, partidos, dataEleicao, tipo);
+        Processamento processar = new Processamento(candidatos, partidos, dataEleicao, tipo);
 
-        relatorio.ordenaCandidatos();
-        relatorio.setCandidatosEleitos();
-        relatorio.ordenaPartidos();
+        processar.ordenaCandidatos();
+        processar.setCandidatosEleitos();
+        processar.ordenaPartidos();
 
         
-        relatorio.rel1();
+        processar.rel1();
         System.out.println();
-        relatorio.rel2();
+        processar.rel2();
         System.out.println();
-        relatorio.rel3();
+        processar.rel3();
         System.out.println();
-        relatorio.rel4();
+        processar.rel4();
         System.out.println();
-        relatorio.rel5();
+        processar.rel5();
         System.out.println();
-        relatorio.rel6();
+        processar.rel6();
         // System.out.println();
-        // relatorio.rel7();
+        // processar.rel7();
         System.out.println();
-        relatorio.rel8();
+        processar.rel8();
         System.out.println();
-        relatorio.rel9();
+        processar.rel9();
         System.out.println();
-        relatorio.rel10();
+        processar.rel10();
         System.out.println();
-        relatorio.rel11();
+        processar.rel11();
         
            
     }
