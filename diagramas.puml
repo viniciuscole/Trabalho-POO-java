@@ -1,0 +1,34 @@
+@startuml Sistema de votação
+Partido "0, 1   " <--|> "0 ...  n   " Candidato : possui >
+class Candidato
+{
+    tipoCandidato : int;
+    situacao : int;
+    numeroCandidato : int;
+    nome : String;
+    numeroFederacao : int;
+    dataNascimento : Date;
+    situacaoEleito : int;
+    genero : int;
+    votos=0 : int;
+    partido : Partido;
+}
+class Partido
+{
+    candidatos : LinkedList<Candidato>;
+    sigla : String;
+    numero : int;
+    votosLegenda=0 : int;
+}
+
+Leitor -> "0 ... n" Partido : possui >
+class Leitor
+{
+    path : String;
+    is : InputStream;
+    isr : InputStreamReader;
+    br : BufferedReader;
+    partidos : LinkedList<Partido>;
+    candidatosVotoLegenda : LinkedList<Candidato>;
+}
+@enduml

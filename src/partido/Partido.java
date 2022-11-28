@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import candidato.Candidato;
 
 public class Partido {
-    LinkedList <Candidato> candidatos = new LinkedList <Candidato>();
-    String sigla;
-    int numero;
-    int votosLegenda = 0;
+    private LinkedList <Candidato> candidatos = new LinkedList <Candidato>();
+    private String sigla;
+    private int numero;
+    private int votosLegenda = 0;
 
     public Partido(String sigla, int numero) {
         this.sigla = sigla;
