@@ -1,5 +1,4 @@
 @startuml Sistema de votação
-Partido "0, 1   " <--|> "0 ...  n   " Candidato : possui >
 class Candidato
 {
     tipoCandidato : int;
@@ -21,7 +20,6 @@ class Partido
     votosLegenda=0 : int;
 }
 
-Leitor -> "0 ... n" Partido : possui >
 class Leitor
 {
     path : String;
@@ -30,5 +28,22 @@ class Leitor
     br : BufferedReader;
     partidos : LinkedList<Partido>;
     candidatosVotoLegenda : LinkedList<Candidato>;
+}
+class Processamento
+{
+    candidatos : HashMap<Integer, Candidato>;
+    candidatosList : LinkedList <Candidato>;
+    candidatosEleitos : LinkedList <Candidato>;
+    partidos : LinkedList <Partido> ;
+    tipoEleicao : int;
+    dataEleicao : Date;
+}
+Partido "0, 1   " <--|> "0 ...  n   " Candidato : possui >
+Leitor -> "0 ... n" Partido : possui >
+App --> Leitor : ler >
+App -> Processamento : processar >
+class App
+{
+    public static void main(String[] args)
 }
 @enduml
