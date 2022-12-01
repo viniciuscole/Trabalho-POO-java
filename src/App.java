@@ -23,11 +23,14 @@ public class App {
         String date = args[3];
         int tipo=0;
 
+        // joga uma exceção caso a variavel date não esteja no formato correto
         Date dataEleicao = new SimpleDateFormat("dd/MM/yyyy").parse(date);
 
         Leitor leitor = new Leitor(candidates_archive);
+
         HashMap<Integer, Candidato> candidatos = new HashMap <Integer, Candidato>();
-        LinkedList <Candidato> candidatosVotoLegenda = new LinkedList <Candidato>();
+
+        LinkedList <Candidato> candidatosVotoLegenda = new LinkedList <Candidato>(); // candidatos cujo voto vai para a legenda de seu partido
         
         switch(option){
             case "--federal":
@@ -42,8 +45,10 @@ public class App {
         }
         
         candidatos = leitor.setCandidates(candidatos, tipo);
-        leitor.setPath(voters_archive);
         candidatosVotoLegenda = leitor.getCandidatosVotoLegenda();
+
+        leitor.setPath(voters_archive);     
+        
         candidatos = leitor.setVotes(candidatos,candidatosVotoLegenda, tipo);
         
         LinkedList <Partido> partidos = leitor.getPartidos();

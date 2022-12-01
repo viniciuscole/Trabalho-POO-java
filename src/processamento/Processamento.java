@@ -44,7 +44,7 @@ public class Processamento {
             public int compare(Candidato c1, Candidato c2) {
                 if(c2.getVotos()!=c1.getVotos())    
                 return c2.getVotos() - c1.getVotos();
-                else return c1.getDataNascimento().compareTo(c2.getDataNascimento());
+                else return c1.getDataNascimento().compareTo(c2.getDataNascimento());   // retorna < 0 se a data de nascimento de c1 for anterior a de c2, e vice-versa
             }
         });
     }
@@ -60,7 +60,7 @@ public class Processamento {
         });
 
         for(Partido partido : partidos){
-            Collections.sort(partido.getCandidatos(), new Comparator<Candidato>() {
+            Collections.sort(partido.getCandidatos(), new Comparator<Candidato>() { // ordena os candidatos de cada partido
                 @Override
                 public int compare(Candidato c1, Candidato c2) {
                     if(c2.getVotos()!=c1.getVotos())    
@@ -84,7 +84,7 @@ public class Processamento {
         for(Candidato candidatoEleito : candidatosEleitos){
 
             if(candidatoEleito.getNumeroFederacao()==-1)
-                System.out.print(i+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
+                System.out.print(i+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", ".")); // substitui a vírgula por ponto, para tranformar algo no formato 1,156,145 em 1.156.145
             
             else 
                 System.out.print(i+" - *"+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
@@ -141,7 +141,7 @@ public class Processamento {
                 }
             }
             i++;
-            if(i==candidatosEleitos.size()+1) break;
+            if(i==candidatosEleitos.size()+1) break;    // para não imprimir mais do que o número de vagas
         }
     }
 
@@ -160,7 +160,7 @@ public class Processamento {
         System.out.println("(com sua posição no ranking de mais votados)");
 
         for(Candidato candidatoEleito : candidatosEleitos){
-            if(!candidatosMaisVotados.contains(candidatoEleito)){
+            if(!candidatosMaisVotados.contains(candidatoEleito)){ // se o candidato eleito não está no ranking de mais votados
                 if(candidatoEleito.getNumeroFederacao()==-1)
                     System.out.print(candidatosList.indexOf(candidatoEleito)+1+" - "+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
                 else System.out.print(candidatosList.indexOf(candidatoEleito)+1+" - *"+candidatoEleito.getNome().toUpperCase()+" ("+candidatoEleito.getPartido().getSigla()+", "+df.format(candidatoEleito.getVotos()).replaceAll(",", "."));
@@ -257,7 +257,8 @@ public class Processamento {
 
             Calendar dataAtual = new GregorianCalendar();
             dataAtual.setTime(dataEleicao);
-
+            
+            // calculo da idade
             int idade = dataAtual.get(Calendar.YEAR) - dataNasc.get(Calendar.YEAR);
 
             if(dataAtual.get(Calendar.MONTH) < dataNasc.get(Calendar.MONTH)){
@@ -268,7 +269,8 @@ public class Processamento {
                     idade--;
                 }
             }
-
+            //
+            
 
             if(idade<30) menorQue30++;
             else if(idade<40) menorQue40++;

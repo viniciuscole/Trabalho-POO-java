@@ -46,6 +46,7 @@ public class Leitor {
     
     public HashMap<Integer, Candidato> setCandidates(HashMap<Integer, Candidato> candidatos, int tipo) throws IOException, ParseException{   //0 para federal, 1 para estadual
 
+        // posição dos dados relevantes no arquivo
         final int tipoCandidatoIndex= 13;
         final int situacaoIndex= 68;
         final int numeroCandidatoIndex= 16;
@@ -61,7 +62,7 @@ public class Leitor {
 
 
         is = new FileInputStream(path);
-        isr = new InputStreamReader(is, "Latin1");
+        isr = new InputStreamReader(is, "Latin1");   // encoding do arquivo
         br = new BufferedReader(isr);
         
         
@@ -86,7 +87,7 @@ public class Leitor {
             try{
                dataNascimento = new SimpleDateFormat("dd/MM/yyyy").parse(data[dataNascimentoIndex].replaceAll("\"", ""));
             }
-            catch(ParseException e){
+            catch(ParseException e){ //algumas das datas estão nulas
                 dateParseError=1;
             }
 
@@ -97,17 +98,17 @@ public class Leitor {
             
             int flag=0;
             for(Partido partido: partidos){
-                if(partido.getNumero() == numeroPartido){
+                if(partido.getNumero() == numeroPartido){ //se o partido já existe
                     flag=1;
                     break;
                 }
             }
-            if(flag==0){
-                Partido partido = new Partido(siglaPartido, numeroPartido);
+            if(flag==0){ 
+                Partido partido = new Partido(siglaPartido, numeroPartido); //cria um novo partido
                 partidos.add(partido);
             }
 
-            if(tipoVoto.equals("Válido (legenda)")){
+            if(tipoVoto.equals("Válido (legenda)")){ //candidato cujo voto é destinado ao partido
                 Candidato candidato = new Candidato(tipoCandidato, situacao, numeroCandidato, nome, numeroFederacao, dataNascimento, situacaoEleito, genero);
                 candidatosVotoLegenda.add(candidato);
                 for(Partido partido: partidos){
@@ -181,14 +182,20 @@ public class Leitor {
             int numeroVoto = Integer.parseInt(data[numeroCandidatoIndex].replaceAll("\"", ""));
             int qtdVotos = Integer.parseInt(data[qtdeVotosIndex].replaceAll("\"", ""));
 
-            if(numeroVoto != 95 || numeroVoto != 96 || numeroVoto != 97 || numeroVoto != 98){
+            if(numeroVoto != 95 || numeroVoto != 96 || numeroVoto != 97 || numeroVoto != 98){ //ignora votos nulos, brancos e em branco
                             
                 switch(tipo){
                     case 0:
                         if(cargo==6){
-                            for(Candidato candidato: candidatoVotoLegenda){
+                            for(Candidato candidato: candidatoVotoLegenda){ 
                                 if(candidato.getNumeroCandidato()==numeroVoto){
                                     candidato.getPartido().addVotosLegenda(qtdVotos);
+                                    break;
+                                }
+                            }
+                            for(Partido partido: partidos){
+                                if(partido.getNumero()==numeroVoto){
+                                    partido.addVotosLegenda(qtdVotos);
                                     break;
                                 }
                             }
@@ -197,12 +204,6 @@ public class Leitor {
                             }
                             catch(NullPointerException e){
                             }
-                            for(Partido partido: partidos){
-                                if(partido.getNumero()==numeroVoto){
-                                    partido.addVotosLegenda(qtdVotos);
-                                    break;
-                                }
-                            }
                         }
                         break;
                     case 1:
@@ -210,13 +211,8 @@ public class Leitor {
                             for(Candidato candidato: candidatoVotoLegenda){
                                 if(candidato.getNumeroCandidato()==numeroVoto){
                                     candidato.getPartido().addVotosLegenda(qtdVotos);
+                                    break;
                                 }
-                                break;
-                            }
-                            try{        
-                                candidatos.get(numeroVoto).addVotos(qtdVotos);
-                            }
-                            catch(NullPointerException e){
                             }
                             for(Partido partido: partidos){
                                 if(partido.getNumero()==numeroVoto){
@@ -224,6 +220,10 @@ public class Leitor {
                                     break;
                                 }
                             }
+                            try{        
+                                candidatos.get(numeroVoto).addVotos(qtdVotos);
+                            }
+                            catch(NullPointerException e){}
                         }
                         break;
                     default:
@@ -233,6 +233,7 @@ public class Leitor {
             }
 
         }
+        br.close();
 
 
         return candidatos;
