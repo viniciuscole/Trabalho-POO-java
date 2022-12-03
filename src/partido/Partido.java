@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import candidato.Candidato;
 
 public class Partido {
-    private LinkedList <Candidato> candidatos = new LinkedList <Candidato>();
+    private LinkedList<Candidato> candidatos = new LinkedList<Candidato>();
     private String sigla;
     private int numero;
     private int votosLegenda = 0;
@@ -15,38 +15,31 @@ public class Partido {
         this.numero = numero;
     }
 
-    
-    
-
     public LinkedList<Candidato> getCandidatos() {
         return candidatos;
     }
-
-
 
     public String getSigla() {
         return sigla;
     }
 
-
-
     public int getNumero() {
         return numero;
     }
 
-    public int getVotosLegenda(){
+    public int getVotosLegenda() {
         return votosLegenda;
     }
 
-    public int getVotosNominais(){
+    public int getVotosNominais() {
         int votos = 0;
-        for(Candidato candidato : candidatos){
+        for (Candidato candidato : candidatos) {
             votos += candidato.getVotos();
         }
         return votos;
     }
 
-    public int getVotosTotais(){
+    public int getVotosTotais() {
         return votosLegenda + getVotosNominais();
     }
 
@@ -54,8 +47,7 @@ public class Partido {
         this.votosLegenda += votosLegenda;
     }
 
-
-    public void addCandidato(Candidato candidato){
+    public void addCandidato(Candidato candidato) {
         candidatos.add(candidato);
     }
 

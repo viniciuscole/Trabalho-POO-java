@@ -17,7 +17,8 @@ public class Candidato {
     private int votos = 0;
     private Partido partido;
 
-    public Candidato(int tipoCandidato, int situacao, int numeroCandidato, String nome, int numeroFederacao, Date dataNascimento, int situacaoEleito, int genero) {
+    public Candidato(int tipoCandidato, int situacao, int numeroCandidato, String nome, int numeroFederacao,
+            Date dataNascimento, int situacaoEleito, int genero) {
         this.tipoCandidato = tipoCandidato;
         this.situacao = situacao;
         this.numeroCandidato = numeroCandidato;
@@ -28,54 +29,37 @@ public class Candidato {
         this.genero = genero;
     }
 
-    
-    
-
     public int getTipoCandidato() {
         return tipoCandidato;
     }
-
-
 
     public int getSituacao() {
         return situacao;
     }
 
-
-
     public int getNumeroCandidato() {
         return numeroCandidato;
     }
 
-
-
     public String getNome() {
         return nome;
     }
-    
 
     public int getNumeroFederacao() {
         return numeroFederacao;
     }
 
-    
-
     public Date getDataNascimento() {
         return dataNascimento;
     }
 
-    
-    
     public int getSituacaoEleito() {
         return situacaoEleito;
     }
 
-
-    
     public int getGenero() {
         return genero;
     }
-
 
     public int getVotos() {
         return votos;
@@ -93,14 +77,13 @@ public class Candidato {
         this.votos += votos;
     }
 
-    
     @Override
     public String toString() {
-        return "Candidato [tipoCandidato=" + tipoCandidato + ", situacao=" + situacao + ", numeroCandidato=" + numeroCandidato + ", nome="
+        return "Candidato [tipoCandidato=" + tipoCandidato + ", situacao=" + situacao + ", numeroCandidato="
+                + numeroCandidato + ", nome="
                 + nome + ", numeroFederacao="
                 + numeroFederacao + ", dataNascimento=" + dataNascimento + ", situacaoEleito=" + situacaoEleito
                 + ", genero=" + genero + ", votos=" + votos + "]";
     }
-    
-    
+
 }
